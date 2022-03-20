@@ -60,6 +60,15 @@ class Tree
       node
     end
   end
+
+  def insert(node, value)
+    leaf = find(node, value)
+    if value < leaf.data
+      leaf.left = Node.new(value)
+    else
+      leaf.right = Node.new(value)
+    end
+  end
 end
 
 array = [100, 200, 300, 400, 500, 600]
@@ -71,3 +80,7 @@ tree.pretty_print
 puts tree.find(tree.root, 10, true)
 puts tree.find(tree.root, 2, true)
 puts tree.find(tree.root, 600)
+tree.insert(tree.root, 4)
+tree.insert(tree.root, 601)
+tree.insert(tree.root, 800)
+tree.pretty_print
