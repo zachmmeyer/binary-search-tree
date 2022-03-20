@@ -14,6 +14,7 @@ end
 # Tree class
 class Tree
   attr_accessor :root
+
   def initialize(array)
     @array = array
     @root = build_tree(@array.sort, 0, @array.length - 1)
@@ -40,6 +41,17 @@ class Tree
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
+
+  def search(node, value)
+    return false if node.left.nil? && node.right.nil?
+    return node if node.data == value
+
+    if value < node.data
+      search(node.left, value)
+    else
+      search(node.right, value)
+    end
+  end
 end
 
 array = [1, 2, 3, 4, 5, 6, 7]
@@ -47,3 +59,6 @@ array = [1, 2, 3, 4, 5, 6, 7]
 tree = Tree.new(array)
 
 tree.pretty_print
+
+puts tree.search(tree.root, 10)
+puts tree.search(tree.root, 2)
