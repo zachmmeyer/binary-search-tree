@@ -42,7 +42,7 @@ class Tree
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  def search(node, value, fancy = false)
+  def find(node, value, fancy = false)
     if node.left.nil? && node.right.nil? || node.nil?
       return "The node is #{node}" if fancy
 
@@ -51,9 +51,9 @@ class Tree
     return node if node.data == value
 
     if value < node.data && !node.left.nil?
-      search(node.left, value, fancy)
+      find(node.left, value, fancy)
     elsif value > node.data && !node.right.nil?
-      search(node.right, value, fancy)
+      find(node.right, value, fancy)
     else
       return "The last leaf was #{node}, value was not found." if fancy
 
@@ -68,6 +68,6 @@ tree = Tree.new(array)
 
 tree.pretty_print
 
-puts tree.search(tree.root, 10, true)
-puts tree.search(tree.root, 2, true)
-puts tree.search(tree.root, 600)
+puts tree.find(tree.root, 10, true)
+puts tree.find(tree.root, 2, true)
+puts tree.find(tree.root, 600)
