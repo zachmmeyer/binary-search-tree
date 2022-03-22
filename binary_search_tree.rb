@@ -42,34 +42,46 @@ class Tree
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  def find(node, value, fancy = false)
-    if node.left.nil? && node.right.nil? || node.nil?
-      return "The node is #{node}" if fancy
-
-      return node
+  def find(node, data, fancy: false)
+    if node.data == data
+      return fancy ? "The node data #{node.data} at #{node}" : node
     end
-    return node if node.data == value
 
-    if value < node.data && !node.left.nil?
-      find(node.left, value, fancy)
-    elsif value > node.data && !node.right.nil?
-      find(node.right, value, fancy)
+    if data < node.data && node.left
+      find(node.left, data, fancy: fancy)
+    elsif data > node.data && node.right
+      find(node.right, data, fancy: fancy)
     else
-      return "The last leaf was #{node}, value was not found." if fancy
-
-      node
+      fancy ? "The last leaf was #{node.data} at #{node}, data was not found." : node
     end
   end
 
-  def insert(node, value)
-    leaf = find(node, value)
-    if value < leaf.data
-      leaf.left = Node.new(value)
+  # def get_nearest_leaf(node, data)
+
+  # end
+
+  def insert(node, data)
+    leaf = find(node, data)
+    if data < leaf.data
+      leaf.left = Node.new(data)
     else
-      leaf.right = Node.new(value)
+      leaf.right = Node.new(data)
     end
   end
+
+  # def delete(node, data)
+  # Multiple cases that need to be covered:
+  # Node being deleted is just a leaf
+  # Node being deleted has one child
+  # Node being deleted has two children
+  # That being said, things get more complicated
+  # end
 end
+
+# Order of methods so far has been:
+# Build Tree
+# Find
+# Insert
 
 array = [100, 200, 300, 400, 500, 600]
 
@@ -77,10 +89,12 @@ tree = Tree.new(array)
 
 tree.pretty_print
 
-puts tree.find(tree.root, 10, true)
-puts tree.find(tree.root, 2, true)
-puts tree.find(tree.root, 600)
+puts tree.find(tree.root, 10, fancy: true)
+puts tree.find(tree.root, 2, fancy: true)
+puts tree.find(tree.root, 600, fancy: true)
+puts tree.find(tree.root, 900, fancy: true)
 tree.insert(tree.root, 4)
 tree.insert(tree.root, 601)
 tree.insert(tree.root, 800)
 tree.pretty_print
+puts tree.find(tree.root, 800, fancy: true)
