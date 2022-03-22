@@ -42,26 +42,42 @@ class Tree
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  def find(node, data, fancy: false)
-    if node.data == data
-      return fancy ? "The node data #{node.data} at #{node}" : node
-    end
+  # def find(node, data)
+  #   if node.data == data
+  #     return node
+  #   end
+
+  #   if data < node.data && node.left
+  #     find(node.left, data)
+  #   elsif data > node.data && node.right
+  #     find(node.right, data)
+  #   else
+  #      node
+  #   end
+  # end
+
+  def find(node, data)
+    return node if node.data == data
 
     if data < node.data && node.left
-      find(node.left, data, fancy: fancy)
+      find(node.left, data)
     elsif data > node.data && node.right
-      find(node.right, data, fancy: fancy)
-    else
-      fancy ? "The last leaf was #{node.data} at #{node}, data was not found." : node
+      find(node.right, data)
     end
   end
 
-  # def get_nearest_leaf(node, data)
-
-  # end
+  def get_nearest_leaf(node, data)
+    if data < node.data && node.left
+      get_nearest_leaf(node.left, data)
+    elsif data > node.data && node.right
+      get_nearest_leaf(node.right, data)
+    else
+      node
+    end
+  end
 
   def insert(node, data)
-    leaf = find(node, data)
+    leaf = get_nearest_leaf(node, data)
     if data < leaf.data
       leaf.left = Node.new(data)
     else
@@ -81,6 +97,7 @@ end
 # Order of methods so far has been:
 # Build Tree
 # Find
+# Get Nearest Leaf
 # Insert
 
 array = [100, 200, 300, 400, 500, 600]
@@ -89,12 +106,12 @@ tree = Tree.new(array)
 
 tree.pretty_print
 
-puts tree.find(tree.root, 10, fancy: true)
-puts tree.find(tree.root, 2, fancy: true)
-puts tree.find(tree.root, 600, fancy: true)
-puts tree.find(tree.root, 900, fancy: true)
+puts tree.find(tree.root, 10)
+puts tree.find(tree.root, 2)
+puts tree.find(tree.root, 600)
+puts tree.find(tree.root, 900)
 tree.insert(tree.root, 4)
 tree.insert(tree.root, 601)
 tree.insert(tree.root, 800)
 tree.pretty_print
-puts tree.find(tree.root, 800, fancy: true)
+puts tree.find(tree.root, 800)
