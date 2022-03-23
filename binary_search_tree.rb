@@ -104,14 +104,18 @@ array = [100, 200, 300, 400, 500, 600]
 
 tree = Tree.new(array)
 
-tree.pretty_print
+# tree.pretty_print
 
-puts tree.find(tree.root, 10)
-puts tree.find(tree.root, 2)
-puts tree.find(tree.root, 600)
-puts tree.find(tree.root, 900)
+puts "This should return true if the data 4 is not found: #{tree.find(tree.root, 4).nil?}"
+puts "This should return true if the data 600 is found: #{tree.find(tree.root, 600).data == 600}"
+puts "Let's insert 4"
 tree.insert(tree.root, 4)
+puts "This should return true now that 4 was inserted: #{tree.find(tree.root, 4).data == 4}"
+puts "Let's insert 601"
 tree.insert(tree.root, 601)
+puts "This should return true now that 601 was inserted: #{tree.find(tree.root, 601).data == 601}"
+puts "Let's insert 800"
 tree.insert(tree.root, 800)
+puts "This should return true now that 800 was inserted: #{tree.find(tree.root, 800).data == 800}"
 tree.pretty_print
 puts tree.find(tree.root, 800)
