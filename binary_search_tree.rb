@@ -94,6 +94,24 @@ class Tree
       find_parent(node.right, data)
     end
   end
+
+  def delete_leaf(node, data, target)
+    parent = find_parent(node, data)
+    if parent.left == target
+      parent.left = nil
+    else
+      parent.right = nil
+    end
+  end
+
+  def delete(node, data)
+    target = find(node, data)
+    if target.left.nil? && target.right.nil?
+      delete_leaf(node, data, target)
+    else
+      puts 'Cases still need to be covered: Single Child, Two Children'
+    end
+  end
 end
 
 # Order of methods so far has been:
@@ -119,5 +137,8 @@ puts "This should return true now that 601 was inserted: #{tree.find(tree.root, 
 puts "Let's insert 800"
 tree.insert(tree.root, 800)
 puts "This should return true now that 800 was inserted: #{tree.find(tree.root, 800).data == 800}"
-tree.pretty_print
-puts tree.find(tree.root, 800)
+puts "Let's delete leaf node 4"
+tree.delete(tree.root, 4)
+puts "This should return true now that 4 was deleted: #{tree.find(tree.root, 4).nil?}"
+tree.delete(tree.root, 600)
+
