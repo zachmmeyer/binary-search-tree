@@ -42,20 +42,6 @@ class Tree
     pretty_print(node.left, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left
   end
 
-  # def find(node, data)
-  #   if node.data == data
-  #     return node
-  #   end
-
-  #   if data < node.data && node.left
-  #     find(node.left, data)
-  #   elsif data > node.data && node.right
-  #     find(node.right, data)
-  #   else
-  #      node
-  #   end
-  # end
-
   def find(node, data)
     return node if node.data == data
 
@@ -114,12 +100,6 @@ class Tree
   end
 end
 
-# Order of methods so far has been:
-# Build Tree
-# Find
-# Get Nearest Leaf
-# Insert
-
 array = [100, 200, 300, 400, 500, 600]
 
 tree = Tree.new(array)
@@ -141,4 +121,3 @@ puts "Let's delete leaf node 4"
 tree.delete(tree.root, 4)
 puts "This should return true now that 4 was deleted: #{tree.find(tree.root, 4).nil?}"
 tree.delete(tree.root, 600)
-
