@@ -85,13 +85,15 @@ class Tree
     end
   end
 
-  # def delete(node, data)
-  # Multiple cases that need to be covered:
-  # Node being deleted is just a leaf
-  # Node being deleted has one child
-  # Node being deleted has two children
-  # That being said, things get more complicated
-  # end
+  def find_parent(node, data)
+    return node if node.left.data == data || node.right.data == data
+
+    if data < node.data && node.left
+      find_parent(node.left, data)
+    elsif data > node.data && node.right
+      find_parent(node.right, data)
+    end
+  end
 end
 
 # Order of methods so far has been:
