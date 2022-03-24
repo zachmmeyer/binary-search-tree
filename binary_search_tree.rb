@@ -90,12 +90,47 @@ class Tree
     end
   end
 
+  def find_inorder_successor(node)
+    if node.right
+      node = node.right
+      node = node.left until node.left.nil?
+    else
+      puts 'oops'
+    end
+    node
+  end
+
   def delete(node, data)
     target = find(node, data)
     if target.left.nil? && target.right.nil?
       delete_leaf(node, data, target)
+    elsif target.left.nil? || target.right.nil?
+      child = target.left || target.right
+      parent = find_parent(node, data)
+      if parent.left == target
+        parent.left = child
+      else
+        parent.right = child
+      end
+    elsif target.left && target.right
+      inorder_successor = find_inorder_successor(target)
+      # puts "Inorder successor of #{target.data} is #{inorder_successor.data}"
+      inorder_successor_parent = find_parent(node, inorder_successor.data)
+      # puts "The parent of the inorder successor is #{inorder_successor_parent.data}"
+      if target.data == node.data
+        inorder_successor_parent.left = nil
+        target.data = inorder_successor.data
+      else
+        target.data = inorder_successor.data
+        if inorder_successor_parent.left == inorder_successor
+          inorder_successor_parent.left = nil
+        else
+          inorder_successor_parent.right = nil
+        end
+      end
+
     else
-      puts 'Cases still need to be covered: Single Child, Two Children'
+      puts 'Not even sure what could be happening here'
     end
   end
 end
@@ -106,6 +141,7 @@ tree = Tree.new(array)
 
 # tree.pretty_print
 
+tree.pretty_print
 puts "This should return true if the data 4 is not found: #{tree.find(tree.root, 4).nil?}"
 puts "This should return true if the data 600 is found: #{tree.find(tree.root, 600).data == 600}"
 puts "Let's insert 4"
@@ -121,3 +157,20 @@ puts "Let's delete leaf node 4"
 tree.delete(tree.root, 4)
 puts "This should return true now that 4 was deleted: #{tree.find(tree.root, 4).nil?}"
 tree.delete(tree.root, 600)
+puts "This should return true now that 600 was deleted: #{tree.find(tree.root, 600).nil?}"
+puts "Let's delete node 100 with one child of 200"
+tree.delete(tree.root, 100)
+puts "This should return true now that 100 was deleted: #{tree.find(tree.root, 100).nil?}"
+tree.insert(tree.root, 302)
+tree.insert(tree.root, 301)
+tree.insert(tree.root, 303)
+tree.insert(tree.root, 401)
+tree.insert(tree.root, 602)
+tree.insert(tree.root, 555)
+puts "Let's delete node 500 with two children nodes of #{tree.find(tree.root, 500).left.data} and #{tree.find(tree.root, 500).right.data}"
+tree.delete(tree.root, 500)
+puts "Let's delete node 400 with two children nodes of #{tree.find(tree.root, 400).left.data} and #{tree.find(tree.root, 400).right.data}"
+tree.delete(tree.root, 400)
+puts "Let's delete the root node #{tree.root.data} with two children nodes of #{tree.root.left.data} and #{tree.root.right.data}"
+tree.pretty_print
+tree.delete(tree.root, 300)
