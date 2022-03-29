@@ -169,6 +169,19 @@ class Tree
     array << node.data
     array
   end
+
+  def find_height(node)
+    return -1 if node.nil?
+
+    left_height = find_height(node.left)
+    right_height = find_height(node.right)
+    left_height + 1 > right_height + 1 ? left_height + 1 : right_height + 1
+  end
+
+  def height(node, data)
+    target = find(node, data)
+    find_height(target)
+  end
 end
 
 array = [100, 200, 300, 400, 500, 600]
@@ -217,3 +230,5 @@ tree.pretty_print
 p "Preorder: #{tree.preorder(tree.root)}"
 p "Inorder: #{tree.inorder(tree.root)}"
 p "Postorder: #{tree.postorder(tree.root)}"
+puts "The height of 301 is #{tree.height(tree.root, 301)}"
+puts "The height of 602 is #{tree.height(tree.root, 602)}"
