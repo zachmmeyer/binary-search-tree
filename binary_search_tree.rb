@@ -94,8 +94,6 @@ class Tree
     if node.right
       node = node.right
       node = node.left until node.left.nil?
-    else
-      puts 'oops'
     end
     node
   end
