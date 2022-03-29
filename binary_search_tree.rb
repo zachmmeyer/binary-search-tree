@@ -182,6 +182,17 @@ class Tree
     target = find(node, data)
     find_height(target)
   end
+
+  def depth(node, data, count = 0)
+    count += 1
+    return count - 1 if node.data == data
+
+    if data < node.data && node.left
+      depth(node.left, data, count)
+    elsif data > node.data && node.right
+      depth(node.right, data, count)
+    end
+  end
 end
 
 array = [100, 200, 300, 400, 500, 600]
@@ -232,3 +243,4 @@ p "Inorder: #{tree.inorder(tree.root)}"
 p "Postorder: #{tree.postorder(tree.root)}"
 puts "The height of 301 is #{tree.height(tree.root, 301)}"
 puts "The height of 602 is #{tree.height(tree.root, 602)}"
+puts "The depth of 602 is #{tree.depth(tree.root, 602)}"
