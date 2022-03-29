@@ -191,6 +191,17 @@ class Tree
       depth(node.right, data, count)
     end
   end
+
+  def balanced?(node)
+    left_side = height(node.left, node.left.data)
+    right_side = height(node.right, node.right.data)
+    (left_side - right_side).abs > 1 ? false : true
+  end
+
+  def rebalance(node)
+    array = inorder(node)
+    @root = build_tree(array.sort, 0, array.length - 1)
+  end
 end
 
 array = [100, 200, 300, 400, 500, 600]
@@ -242,3 +253,8 @@ p "Postorder: #{tree.postorder(tree.root)}"
 puts "The height of 301 is #{tree.height(tree.root, 301)}"
 puts "The height of 602 is #{tree.height(tree.root, 602)}"
 puts "The depth of 602 is #{tree.depth(tree.root, 602)}"
+puts "Is the tree balanced? #{tree.balanced?(tree.root)}"
+puts "It's time to rebalance the tree."
+tree.rebalance(tree.root)
+tree.pretty_print
+puts "Is the tree balanced? #{tree.balanced?(tree.root)}"
