@@ -142,6 +142,15 @@ class Tree
     end
     level_order
   end
+
+  def preorder(node, array = [])
+    return if node.nil?
+
+    array << node.data
+    preorder(node.left, array)
+    preorder(node.right, array)
+    array
+  end
 end
 
 array = [100, 200, 300, 400, 500, 600]
@@ -187,3 +196,4 @@ puts "Let's delete the root node #{tree.root.data} with two children nodes of #{
 tree.delete(tree.root, 300)
 puts "This should return true now that 400 was deleted: #{tree.find(tree.root, 300).nil?}"
 tree.pretty_print
+p tree.preorder(tree.root)
