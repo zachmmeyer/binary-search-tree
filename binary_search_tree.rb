@@ -151,6 +151,24 @@ class Tree
     preorder(node.right, array)
     array
   end
+
+  def inorder(node, array = [])
+    return if node.nil?
+
+    inorder(node.left, array)
+    array << node.data
+    inorder(node.right, array)
+    array
+  end
+
+  def postorder(node, array = [])
+    return if node.nil?
+
+    postorder(node.left, array)
+    postorder(node.right, array)
+    array << node.data
+    array
+  end
 end
 
 array = [100, 200, 300, 400, 500, 600]
@@ -196,4 +214,6 @@ puts "Let's delete the root node #{tree.root.data} with two children nodes of #{
 tree.delete(tree.root, 300)
 puts "This should return true now that 400 was deleted: #{tree.find(tree.root, 300).nil?}"
 tree.pretty_print
-p tree.preorder(tree.root)
+p "Preorder: #{tree.preorder(tree.root)}"
+p "Inorder: #{tree.inorder(tree.root)}"
+p "Postorder: #{tree.postorder(tree.root)}"
